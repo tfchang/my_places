@@ -8,7 +8,7 @@ Built on Node.js and expressJS
 To-Do:
 => 1. Seed data: nine places
 
-2. setTimeout instead of setInterval
+=> 2. setTimeout instead of setInterval
 
 3. Separate getPictures from display and load
 

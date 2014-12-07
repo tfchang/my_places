@@ -48,53 +48,31 @@ function showPicture(img, img_url, picIndex) {
   }, picIndex * 5000);
 };
 
-function getPictures(getStr, placeIndex) {
+function getPlacePics(getStr, placeIndex) {
   $.getJSON(getStr + '&callback=?', function(pics) {
     var img = $('.picture').eq(placeIndex);
-    var numPics = Math.min(maxPic, pics.data.length); 
+    var numPics = Math.min(maxPic, pics.data.length);
+    pictures[placeIndex] = []; 
     
     for (var i = 0; i < numPics; i++) {    
       pictures[placeIndex][i] = pics.data[i].images.thumbnail.url;
       showPicture(img, pictures[placeIndex][i], i);
     };
-
-    // for (var i = 0; i < numPics; i++) {    
-    //   setTimeout(function() {
-    //     img.attr('src', pictures[placeIndex][i]);
-    //     img.fadeIn(1000, function() {
-    //       setTimeout(function() { img.fadeOut(1000); }, 3000);
-    //     });
-    //   }, i * 5000);
-    // };
-
-    // var index = 0;
-    // var intv = setInterval( function() {
-    //   index ++;
-    //   if (index == numPics - 1) {
-    //     clearInterval(intv);
-    //   };
-
-    //   img.attr('src', pictures[placeIndex][index]);
-    //   img.fadeIn(1000, function() {
-    //     setTimeout(function() { img.fadeOut(1000); }, 2000);
-    //   });
-    // }, 4000);
   });  
 };
 
-function loadPictures() { 
+function getPictures() { 
   var instaURL = 'https://api.instagram.com/v1/media/search?';
   var clientStr = 'client_id=' + clientID;
 
   for (var placeIndex = 0; placeIndex < maxPlace; placeIndex++) {
     var place = places[placeIndex];
     var latlngStr = 'lat=' + String(place.lat) + '&lng=' + String(place.lng) + '&';
-    pictures[placeIndex] = [];
-    getPictures(instaURL + latlngStr + clientStr, placeIndex);
+    getPlacePics(instaURL + latlngStr + clientStr, placeIndex);
   };
 };
 
 $(function() {
   setPlaces();
-  loadPictures();
+  getPictures();
 });
