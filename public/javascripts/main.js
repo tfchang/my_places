@@ -6,6 +6,7 @@ const maxPlace = 9;
 const maxPic = 10;
 var places = []; 
 var pictures = [];
+var gotPlaces = [];  // jQuery Deferred objects
 
 function setPlaces() {
   places[0] = {name: "Metrotown"};
@@ -40,14 +41,13 @@ function setPlaces() {
 };
 
 function getPlacePics(getStr, placeIndex) {
-  $.getJSON(getStr + '&callback=?', function(pics) {
-    // var img = $('.picture').eq(placeIndex);
+  pictures[placeIndex] = [];
+
+  gotPlaces[placeIndex] = $.getJSON(getStr + '&callback=?', function(pics) {
     var numPics = Math.min(maxPic, pics.data.length);
-    pictures[placeIndex] = []; 
-    
+
     for (var i = 0; i < numPics; i++) {    
       pictures[placeIndex][i] = pics.data[i].images.thumbnail.url;
-      // showPicture(img, pictures[placeIndex][i], i);
     };
   });  
 };
@@ -72,22 +72,24 @@ function showPicture(img, img_url, picIndex) {
   }, picIndex * 5000);
 };
 
-function showPictures() {
-  for (var placeIndex = 0; placeIndex < maxPlace; placeIndex++) {
-    var img = $('.picture').eq(placeIndex);
-    
+function showPlacePics(placeIndex) {
+  var img = $('.picture').eq(placeIndex);
+
+  gotPlaces[placeIndex].done( function() {
     for (var i = 0; i < pictures[placeIndex].length; i++) {    
       showPicture(img, pictures[placeIndex][i], i);
     };
-  };
+  });
 };
 
-function loadPictures() {
-  getPictures();
-  setTimeout(showPictures, 5000);
+function showPictures() {
+  for (var placeIndex = 0; placeIndex < maxPlace; placeIndex++) { 
+    showPlacePics(placeIndex);
+  };
 };
 
 $(function() {
   setPlaces();
-  loadPictures();
+  getPictures();
+  showPictures();
 });
