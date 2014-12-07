@@ -39,26 +39,46 @@ function setPlaces() {
   places[8].lng = -123.1337;
 };
 
+function showPicture(img, img_url, picIndex) {
+  setTimeout(function() {
+    img.attr('src', img_url);
+    img.fadeIn(1000, function() {
+      setTimeout(function() { img.fadeOut(1000); }, 3000);
+    });
+  }, picIndex * 5000);
+};
+
 function getPictures(getStr, placeIndex) {
   $.getJSON(getStr + '&callback=?', function(pics) {
+    var img = $('.picture').eq(placeIndex);
     var numPics = Math.min(maxPic, pics.data.length); 
+    
     for (var i = 0; i < numPics; i++) {    
       pictures[placeIndex][i] = pics.data[i].images.thumbnail.url;
+      showPicture(img, pictures[placeIndex][i], i);
     };
 
-    var img = $('.picture').eq(placeIndex);
-    var index = 0;
-    var intv = setInterval( function() {
-      index ++;
-      if (index == numPics - 1) {
-        clearInterval(intv);
-      };
+    // for (var i = 0; i < numPics; i++) {    
+    //   setTimeout(function() {
+    //     img.attr('src', pictures[placeIndex][i]);
+    //     img.fadeIn(1000, function() {
+    //       setTimeout(function() { img.fadeOut(1000); }, 3000);
+    //     });
+    //   }, i * 5000);
+    // };
 
-      img.attr('src', pictures[placeIndex][index]);
-      img.fadeIn(1000, function() {
-        setTimeout(function() { img.fadeOut(1000); }, 2000);
-      });
-    }, 4000);
+    // var index = 0;
+    // var intv = setInterval( function() {
+    //   index ++;
+    //   if (index == numPics - 1) {
+    //     clearInterval(intv);
+    //   };
+
+    //   img.attr('src', pictures[placeIndex][index]);
+    //   img.fadeIn(1000, function() {
+    //     setTimeout(function() { img.fadeOut(1000); }, 2000);
+    //   });
+    // }, 4000);
   });  
 };
 
@@ -66,11 +86,11 @@ function loadPictures() {
   var instaURL = 'https://api.instagram.com/v1/media/search?';
   var clientStr = 'client_id=' + clientID;
 
-  for (var pIndex = 0; pIndex < maxPlace; pIndex++) {
-    var place = places[pIndex];
+  for (var placeIndex = 0; placeIndex < maxPlace; placeIndex++) {
+    var place = places[placeIndex];
     var latlngStr = 'lat=' + String(place.lat) + '&lng=' + String(place.lng) + '&';
-    pictures[pIndex] = [];
-    getPictures(instaURL + latlngStr + clientStr, pIndex);
+    pictures[placeIndex] = [];
+    getPictures(instaURL + latlngStr + clientStr, placeIndex);
   };
 };
 
