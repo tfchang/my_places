@@ -39,24 +39,15 @@ function setPlaces() {
   places[8].lng = -123.1337;
 };
 
-function showPicture(img, img_url, picIndex) {
-  setTimeout(function() {
-    img.attr('src', img_url);
-    img.fadeIn(1000, function() {
-      setTimeout(function() { img.fadeOut(1000); }, 3000);
-    });
-  }, picIndex * 5000);
-};
-
 function getPlacePics(getStr, placeIndex) {
   $.getJSON(getStr + '&callback=?', function(pics) {
-    var img = $('.picture').eq(placeIndex);
+    // var img = $('.picture').eq(placeIndex);
     var numPics = Math.min(maxPic, pics.data.length);
     pictures[placeIndex] = []; 
     
     for (var i = 0; i < numPics; i++) {    
       pictures[placeIndex][i] = pics.data[i].images.thumbnail.url;
-      showPicture(img, pictures[placeIndex][i], i);
+      // showPicture(img, pictures[placeIndex][i], i);
     };
   });  
 };
@@ -72,7 +63,31 @@ function getPictures() {
   };
 };
 
+function showPicture(img, img_url, picIndex) {
+  setTimeout(function() {
+    img.attr('src', img_url);
+    img.fadeIn(1000, function() {
+      setTimeout(function() { img.fadeOut(1000); }, 3000);
+    });
+  }, picIndex * 5000);
+};
+
+function showPictures() {
+  for (var placeIndex = 0; placeIndex < maxPlace; placeIndex++) {
+    var img = $('.picture').eq(placeIndex);
+    
+    for (var i = 0; i < pictures[placeIndex].length; i++) {    
+      showPicture(img, pictures[placeIndex][i], i);
+    };
+  };
+};
+
+function loadPictures() {
+  getPictures();
+  setTimeout(showPictures, 5000);
+};
+
 $(function() {
   setPlaces();
-  getPictures();
+  loadPictures();
 });
