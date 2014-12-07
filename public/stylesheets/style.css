@@ -1,0 +1,23 @@
+body {
+  padding: 50px;
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+}
+
+#picture-table {
+  margin-top: 30px;
+}
+
+#picture-table td {
+  width: 150px;
+  height: 150px;
+  border: 1px solid black;
+}
+
+.picture {
+  width: 150px;
+  height: 150px;
+}
+
+a {
+  color: #00B7FF;
+}
