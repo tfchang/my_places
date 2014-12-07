@@ -23,7 +23,8 @@ function setPlaces() {
 
 function getPictures(getStr, placeIndex) {
   $.getJSON(getStr + '&callback=?', function(pics) {
-    for (var i = 0; i < maxPic; i++) {    
+    var numPics = Math.min(maxPic, pics.data.length); 
+    for (var i = 0; i < numPics; i++) {    
       pictures[placeIndex][i] = pics.data[i].images.thumbnail.url;
     };
 
@@ -31,7 +32,7 @@ function getPictures(getStr, placeIndex) {
     var index = 0;
     var intv = setInterval( function() {
       index ++;
-      if (index == maxPic - 1) {
+      if (index == numPics - 1) {
         clearInterval(intv);
       };
 

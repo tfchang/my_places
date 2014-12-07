@@ -8,9 +8,10 @@ body {
 }
 
 #picture-table td {
-  width: 150px;
-  height: 150px;
-  border: 1px solid black;
+  padding: 5px;
+  width: 160px;
+  height: 160px;
+  /*border: 1px solid black;*/
 }
 
 .picture {
