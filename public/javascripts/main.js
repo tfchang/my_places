@@ -71,9 +71,10 @@ function showPicture(img, img_url, picIndex) {
     if (stopPictures) { return; }; 
 
     img.attr('src', img_url);
-    img.fadeIn(500, function() {
-      setTimeout(function() { img.fadeOut(500); }, 3000);
-    });
+    img.fadeIn(500).delay(3000).fadeOut(500);
+    // img.fadeIn(500, function() {
+    //   setTimeout(function() { img.fadeOut(500); }, 3000);
+    // });
   }, picIndex * 4000);
 };
 
@@ -109,6 +110,7 @@ function setRandomPics() {
     var randPic = Math.floor( Math.random(placePics.length) );
     
     var img = $('.picture').eq(placeIndex);
+    img.clearQueue();
     img.attr('src', placePics[randPic]);
     img.slideDown(500);
   };
