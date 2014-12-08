@@ -9,6 +9,7 @@ var pictures = [];
 
 var gotPlaces = [];  // getJSON returned objects
 var stopPictures = false;
+var pictTimeoutIDs = [];
 var setRandDefer = $.Deferred(); 
 
 function setPlaces() {
@@ -66,15 +67,13 @@ function getPictures() {
   };
 };
 
-function showPicture(img, img_url, picIndex) {
-  setTimeout(function() {
-    if (stopPictures) { return; }; 
+function showPicture(img_url, picIndex, placeIndex) {
+  var img = $('.picture').eq(placeIndex); 
+  pictTimeoutIDs[placeIndex] = [];
 
+  pictTimeoutIDs[placeIndex][picIndex] = setTimeout(function() {
     img.attr('src', img_url);
     img.fadeIn(500).delay(3000).fadeOut(500);
-    // img.fadeIn(500, function() {
-    //   setTimeout(function() { img.fadeOut(500); }, 3000);
-    // });
   }, picIndex * 4000);
 };
 
@@ -84,14 +83,13 @@ function showPlacePics(placeIndex) {
     return; 
   }
   
-  var img = $('.picture').eq(placeIndex);  
-
   gotPlaces[placeIndex].done( function() {
     var placePics = pictures[placeIndex];
-    for (var i = 0; i < placePics.length; i++) {    
-      showPicture(img, placePics[i], i);
+    for (var picIndex = 0; picIndex < placePics.length; picIndex++) {    
+      showPicture(placePics[picIndex], picIndex, placeIndex);
     };
     
+    // Replace pictures in an infinite loop
     setTimeout( function() {
       showPlacePics(placeIndex);
     }, placePics.length * 4000 );
@@ -101,6 +99,14 @@ function showPlacePics(placeIndex) {
 function showPictures() { 
   for (var placeIndex = 0; placeIndex < maxPlace; placeIndex++) { 
     showPlacePics(placeIndex);
+  };
+};
+
+function clearAllTimeouts() {
+  for (var placeIndex = 0; placeIndex < maxPlace; placeIndex++) {
+    for (var picIndex = 0; picIndex < pictures[placeIndex].length; picIndex++) { 
+      clearTimeout(pictTimeoutIDs[placeIndex][picIndex]);
+    };
   };
 };
 
@@ -123,7 +129,7 @@ $(function() {
 
   $('#btn-stop').on('click', function() { 
     stopPictures = true; 
-    // setRandDefer.resolve();
+    clearAllTimeouts();
   });
 
   setRandDefer.done(setRandomPics);
