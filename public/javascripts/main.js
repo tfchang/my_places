@@ -6,7 +6,10 @@ const maxPlace = 9;
 const maxPic = 10;
 var places = []; 
 var pictures = [];
-var gotPlaces = [];  // jQuery Deferred objects
+
+var gotPlaces = [];  // getJSON returned objects
+var stopPictures = false;
+var setRandDefer = $.Deferred(); 
 
 function setPlaces() {
   places[0] = {name: "Metrotown"};
@@ -65,6 +68,8 @@ function getPictures() {
 
 function showPicture(img, img_url, picIndex) {
   setTimeout(function() {
+    if (stopPictures) { return; }; 
+
     img.attr('src', img_url);
     img.fadeIn(1000, function() {
       setTimeout(function() { img.fadeOut(1000); }, 3000);
@@ -73,18 +78,39 @@ function showPicture(img, img_url, picIndex) {
 };
 
 function showPlacePics(placeIndex) {
-  var img = $('.picture').eq(placeIndex);
+  if (stopPictures) {
+    setRandDefer.resolve();
+    return; 
+  }
+  
+  var img = $('.picture').eq(placeIndex);  
 
   gotPlaces[placeIndex].done( function() {
-    for (var i = 0; i < pictures[placeIndex].length; i++) {    
-      showPicture(img, pictures[placeIndex][i], i);
+    var placePics = pictures[placeIndex];
+    for (var i = 0; i < placePics.length; i++) {    
+      showPicture(img, placePics[i], i);
     };
+    
+    setTimeout( function() {
+      showPlacePics(placeIndex);
+    }, placePics.length * 5000 );
   });
 };
 
-function showPictures() {
+function showPictures() { 
   for (var placeIndex = 0; placeIndex < maxPlace; placeIndex++) { 
     showPlacePics(placeIndex);
+  };
+};
+
+function setRandomPics() {
+  for (var placeIndex = 0; placeIndex < maxPlace; placeIndex++) { 
+    var placePics = pictures[placeIndex];
+    var randPic = Math.floor( Math.random(placePics.length) );
+    
+    var img = $('.picture').eq(placeIndex);
+    img.attr('src', placePics[randPic]);
+    img.slideDown(1000);
   };
 };
 
@@ -92,4 +118,11 @@ $(function() {
   setPlaces();
   getPictures();
   showPictures();
+
+  $('#btn-stop').on('click', function() { 
+    stopPictures = true; 
+    // setRandDefer.resolve();
+  });
+
+  setRandDefer.done(setRandomPics);
 });

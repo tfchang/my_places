@@ -19,6 +19,15 @@ body {
   height: 150px;
 }
 
+button {
+  border-radius: 10px;
+  width: 70px;
+  height: 40px;
+  background: #000066;
+  color: #FFFFCC;
+  font-size: 20px;
+}
+
 a {
   color: #00B7FF;
 }

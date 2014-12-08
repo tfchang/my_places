@@ -10,9 +10,9 @@ To-Do:
 
 => 2. setTimeout instead of setInterval
 
-3. Separate getPictures from display and load
+=> 3. Separate getPictures from display and load
 
-3.5 Loop pictures
+=> 3.5 Loop pictures
 
 4. Click stop botton => setPictures (random button?)
 
