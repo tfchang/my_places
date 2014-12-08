@@ -71,10 +71,10 @@ function showPicture(img, img_url, picIndex) {
     if (stopPictures) { return; }; 
 
     img.attr('src', img_url);
-    img.fadeIn(1000, function() {
-      setTimeout(function() { img.fadeOut(1000); }, 3000);
+    img.fadeIn(500, function() {
+      setTimeout(function() { img.fadeOut(500); }, 3000);
     });
-  }, picIndex * 5000);
+  }, picIndex * 4000);
 };
 
 function showPlacePics(placeIndex) {
@@ -93,7 +93,7 @@ function showPlacePics(placeIndex) {
     
     setTimeout( function() {
       showPlacePics(placeIndex);
-    }, placePics.length * 5000 );
+    }, placePics.length * 4000 );
   });
 };
 
@@ -110,7 +110,7 @@ function setRandomPics() {
     
     var img = $('.picture').eq(placeIndex);
     img.attr('src', placePics[randPic]);
-    img.slideDown(1000);
+    img.slideDown(500);
   };
 };
 

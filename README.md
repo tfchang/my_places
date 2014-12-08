@@ -14,7 +14,8 @@ To-Do:
 
 => 3.5 Loop pictures
 
-4. Click stop botton => setPictures (random button?)
+?=> 4. Click stop botton => setPictures (random)
+? display random pics right away / clear time delays
 
 5. Click on picture => open picDisplay panel (caption, likes/comments)
 
