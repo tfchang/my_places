@@ -41,6 +41,7 @@ function showPicture(img_url, picIndex, placeIndex) {
 
   pictTimeoutIDs[placeIndex][picIndex] = setTimeout(function() {
     img.attr('src', img_url);
+    console.log('fade in/out: ' + String(placeIndex) + ', ' + String(picIndex));
     img.fadeIn(500).delay(3000).fadeOut(500);
   }, picIndex * 4000);
 };
@@ -74,12 +75,15 @@ function clearAllTimeouts() {
   for (var placeIndex = 0; placeIndex < maxPlace; placeIndex++) {
     for (var picIndex = 0; picIndex < pictures[placeIndex].length; picIndex++) { 
       clearTimeout(pictTimeoutIDs[placeIndex][picIndex]);
+      console.log('clear timeout: ' + String(placeIndex) + ', ' + String(picIndex));
     };
   };
 };
 
 function setRandomPics() {
   for (var placeIndex = 0; placeIndex < maxPlace; placeIndex++) { 
+    console.log('random: ' + String(placeIndex));
+
     var placePics = pictures[placeIndex];
     var randPic = Math.floor( Math.random(placePics.length) );
     
