@@ -6,6 +6,7 @@ const maxPlace = 9;
 const maxPic = 10;
  
 var pictures = [];
+var picLarge = [];
 
 var gotPlaces = [];  // getJSON returned objects
 var stopPictures = false;
@@ -14,12 +15,14 @@ var setRandDefer = $.Deferred();
 
 function getPlacePics(getStr, placeIndex) {
   pictures[placeIndex] = [];
+  picLarge[placeIndex] = [];
 
   gotPlaces[placeIndex] = $.getJSON(getStr + '&callback=?', function(pics) {
     var numPics = Math.min(maxPic, pics.data.length);
 
     for (var i = 0; i < numPics; i++) {    
       pictures[placeIndex][i] = pics.data[i].images.thumbnail.url;
+      picLarge[placeIndex][i] = pics.data[i].images.standard_resolution.url;
     };
   });  
 };
@@ -41,7 +44,9 @@ function showPicture(img_url, picIndex, placeIndex) {
 
   pictTimeoutIDs[placeIndex][picIndex] = setTimeout(function() {
     img.attr('src', img_url);
-    console.log('fade in/out: ' + String(placeIndex) + ', ' + String(picIndex));
+    img.data("large_url", picLarge[placeIndex][picIndex]);
+    
+    // console.log('fade in/out: ' + String(placeIndex) + ', ' + String(picIndex));
     img.fadeIn(500).delay(3000).fadeOut(500);
   }, picIndex * 4000);
 };
@@ -75,14 +80,14 @@ function clearAllTimeouts() {
   for (var placeIndex = 0; placeIndex < maxPlace; placeIndex++) {
     for (var picIndex = 0; picIndex < pictures[placeIndex].length; picIndex++) { 
       clearTimeout(pictTimeoutIDs[placeIndex][picIndex]);
-      console.log('clear timeout: ' + String(placeIndex) + ', ' + String(picIndex));
+      // console.log('clear timeout: ' + String(placeIndex) + ', ' + String(picIndex));
     };
   };
 };
 
 function setRandomPics() {
   for (var placeIndex = 0; placeIndex < maxPlace; placeIndex++) { 
-    console.log('random: ' + String(placeIndex));
+    // console.log('random: ' + String(placeIndex));
 
     var placePics = pictures[placeIndex];
     var randPic = Math.floor( Math.random(placePics.length) );
@@ -102,6 +107,11 @@ $(function() {
   $('#btn-stop').on('click', function() { 
     stopPictures = true; 
     clearAllTimeouts();
+  });
+
+  $('.picture').on('click', function() {
+    console.log($(this).data('large_url'));
+    $('#picture-large').attr('src', $.data(this, 'large_url'));
   });
 
   setRandDefer.done(setRandomPics);
