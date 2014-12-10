@@ -20,9 +20,14 @@ function getPlacePics(getStr, placeIndex) {
   gotPlaces[placeIndex] = $.getJSON(getStr + '&callback=?', function(pics) {
     var numPics = Math.min(maxPic, pics.data.length);
 
-    for (var i = 0; i < numPics; i++) {    
-      pictures[placeIndex][i] = pics.data[i].images.thumbnail.url;
-      picLarge[placeIndex][i] = pics.data[i].images.standard_resolution.url;
+    for (var i = 0; i < numPics; i++) {
+      pictures[placeIndex][i] = {};    
+      pictures[placeIndex][i].smallURL = pics.data[i].images.thumbnail.url;
+      pictures[placeIndex][i].largeURL = pics.data[i].images.standard_resolution.url;
+
+      if (pics.data[i].caption) {
+        pictures[placeIndex][i].caption = pics.data[i].caption.text;
+      };
     };
   });  
 };
@@ -38,13 +43,15 @@ function getPictures() {
   };
 };
 
-function showPicture(img_url, picIndex, placeIndex) {
-  var img = $('.picture').eq(placeIndex); 
+function showPicture(picIndex, placeIndex) {
+  var img = $('.picture').eq(placeIndex);
+  var img_url = pictures[placeIndex][picIndex].smallURL;
   pictTimeoutIDs[placeIndex] = [];
 
   pictTimeoutIDs[placeIndex][picIndex] = setTimeout(function() {
     img.attr('src', img_url);
-    img.data("large_url", picLarge[placeIndex][picIndex]);
+    img.data("place-index", placeIndex);
+    img.data("pic-index", picIndex);
     
     // console.log('fade in/out: ' + String(placeIndex) + ', ' + String(picIndex));
     img.fadeIn(500).delay(3000).fadeOut(500);
@@ -60,7 +67,7 @@ function showPlacePics(placeIndex) {
   gotPlaces[placeIndex].done( function() {
     var placePics = pictures[placeIndex];
     for (var picIndex = 0; picIndex < placePics.length; picIndex++) {    
-      showPicture(placePics[picIndex], picIndex, placeIndex);
+      showPicture(picIndex, placeIndex);
     };
     
     // Replace pictures in an infinite loop
@@ -110,8 +117,12 @@ $(function() {
   });
 
   $('.picture').on('click', function() {
-    console.log($(this).data('large_url'));
-    $('#picture-large').attr('src', $.data(this, 'large_url'));
+    var placeIndex = $(this).data('place-index');
+    var picIndex = $(this).data('pic-index');
+    var picObj = pictures[placeIndex][picIndex];
+
+    $('#picture-large').attr('src', picObj.largeURL);
+    $('#picture-panel').find('figcaption').text(picObj.caption);
   });
 
   setRandDefer.done(setRandomPics);
