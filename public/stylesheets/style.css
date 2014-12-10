@@ -21,7 +21,24 @@ body {
   height: 150px;
 }
 
+#picture-panel {
+  float: left;
+  margin-top: 30px;
+  margin-left: 50px;
+  padding: 10px;
+}
+
+#picture-large {
+  width: 480px;
+  height: 480px;
+}
+
+#picture-large figcaption {
+  margin-top: 20px;
+}
+
 button {
+  display: block;
   clear: both;
   margin-top: 20px;
   margin-left: 30px;
