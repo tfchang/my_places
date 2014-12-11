@@ -42,40 +42,6 @@ function getPictures() {
   };
 };
 
-// function showPicture(picIndex, placeIndex) {
-//   var img = $('.picture').eq(placeIndex);
-//   var img_url = pictures[placeIndex][picIndex].smallURL;
-//   pictTimeoutIDs[placeIndex] = [];
-
-//   pictTimeoutIDs[placeIndex][picIndex] = setTimeout(function() {
-//     img.attr('src', img_url);
-//     img.data("place-index", placeIndex);
-//     img.data("pic-index", picIndex);
-    
-//     // console.log('fade in/out: ' + String(placeIndex) + ', ' + String(picIndex));
-//     img.fadeIn(500).delay(3000).fadeOut(500);
-//   }, picIndex * 4000);
-// };
-
-// function showPlacePics(placeIndex) {
-//   if (stopPictures) {
-//     setRandDefer.resolve();
-//     return; 
-//   }
-  
-//   gotPlaces[placeIndex].done( function() {
-//     var placePics = pictures[placeIndex];
-//     for (var picIndex = 0; picIndex < placePics.length; picIndex++) {    
-//       showPicture(picIndex, placeIndex);
-//     };
-    
-//     // Replace pictures in an infinite loop
-//     setTimeout( function() {
-//       showPlacePics(placeIndex);
-//     }, placePics.length * 4000 );
-//   });
-// };
-
 function SlideShow(placeIndex) {
   this.placeIndex = placeIndex;
   this.img = $('.picture').eq(placeIndex);
@@ -89,15 +55,14 @@ SlideShow.prototype.start = function() {
 
 SlideShow.prototype.next = function() {
   this.picIndex += 1;
+  if (this.picIndex == this.pictures.length) { this.picIndex = 0; };
 
   this.img.attr('src', this.pictures[this.picIndex].smallURL);
   this.img.data("place-index", this.placeIndex);
   this.img.data("pic-index", this.picIndex);
   this.img.fadeIn(500).delay(3000).fadeOut(500);
 
-  if(this.picIndex < this.pictures.length) {
-    setTimeout(function() { this.next() }.bind(this), 4000); 
-  };  
+  setTimeout(function() { this.next() }.bind(this), 4000);  
 };
 
 function showPlacePics(placeIndex, slideShows) {
