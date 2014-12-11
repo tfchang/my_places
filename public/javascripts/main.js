@@ -10,7 +10,7 @@ var pictures = [];
 var gotPlaces = [];  // getJSON returned objects
 var stopPictures = false;
 var pictTimeoutIDs = [];
-var setRandDefer = $.Deferred(); 
+
 
 function getPlacePics(getStr, placeIndex) {
   pictures[placeIndex] = [];
@@ -54,6 +54,11 @@ SlideShow.prototype.start = function() {
 };
 
 SlideShow.prototype.next = function() {
+  if (stopPictures) {
+    this.random();
+    return; 
+  };
+
   this.picIndex += 1;
   if (this.picIndex == this.pictures.length) { this.picIndex = 0; };
 
@@ -65,12 +70,15 @@ SlideShow.prototype.next = function() {
   setTimeout(function() { this.next() }.bind(this), 4000);  
 };
 
-function showPlacePics(placeIndex, slideShows) {
-  // if (stopPictures) {
-  //   setRandDefer.resolve();
-  //   return; 
-  // }
-  
+SlideShow.prototype.random = function() {
+  var randPic = Math.floor( Math.random(this.pictures.length) );
+  this.img.attr('src', this.pictures[randPic].smallURL);
+  this.img.data("place-index", this.placeIndex);
+  this.img.data("pic-index", randPic);
+  this.img.slideDown(500);
+};
+
+function showPlacePics(placeIndex, slideShows) {  
   gotPlaces[placeIndex].done( function() {
     slideShows[placeIndex] = new SlideShow(placeIndex);
     slideShows[placeIndex].start();
@@ -82,29 +90,6 @@ function showPictures() {
 
   for (var placeIndex = 0; placeIndex < maxPlace; placeIndex++) {
     showPlacePics(placeIndex, slideShows);
-  };
-};
-
-function clearAllTimeouts() {
-  for (var placeIndex = 0; placeIndex < maxPlace; placeIndex++) {
-    for (var picIndex = 0; picIndex < pictures[placeIndex].length; picIndex++) { 
-      clearTimeout(pictTimeoutIDs[placeIndex][picIndex]);
-      // console.log('clear timeout: ' + String(placeIndex) + ', ' + String(picIndex));
-    };
-  };
-};
-
-function setRandomPics() {
-  for (var placeIndex = 0; placeIndex < maxPlace; placeIndex++) { 
-    // console.log('random: ' + String(placeIndex));
-
-    var placePics = pictures[placeIndex];
-    var randPic = Math.floor( Math.random(placePics.length) );
-    
-    var img = $('.picture').eq(placeIndex);
-    img.clearQueue();
-    img.attr('src', placePics[randPic]);
-    img.slideDown(500);
   };
 };
 
@@ -128,14 +113,10 @@ $(function() {
   getPictures();
   showPictures();
 
-  $('#btn-stop').on('click', function() { 
-    stopPictures = true; 
-    clearAllTimeouts();
-  });
-
+  // Clicking on a picture opens it in the picture panel
   $('.picture').on('click', openPicInPanel);
-
   $('#hide-panel').on('click', function() { $('#picture-panel').hide(); });
 
-  setRandDefer.done(setRandomPics);
+  // Clicking the stop button stop the SlideShows and set random pictures
+  $('#btn-stop').on('click', function() { stopPictures = true; });
 });
