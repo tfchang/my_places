@@ -1,8 +1,9 @@
 extends layout
 
 block content
-  h1= title
-  p Welcome to #{title}
+  header
+    h1= title
+    p Pick up to nine places. Each place gets ten pictures from Instagram.
   div(id="left-col")
     table(id="picture-table")
       tr
@@ -24,3 +25,6 @@ block content
       figcaption Photo Caption
       a(id="link-insta") Open in Instagram
       button(id="hide-panel") Hide
+  footer
+    p Email me at &nbsp;
+      a(href="mailto:tingfchang@hotmail.com") tingfchang@hotmail.com 

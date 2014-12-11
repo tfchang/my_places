@@ -1,24 +1,17 @@
 body {
   padding: 50px;
   background: #CCFFCC;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  color: #000033;
+  font: 16px "Lucida Grande", Helvetica, Arial, sans-serif;
 }
 
-button {
-  display: block;
+header, footer {
+  padding-left: 30px;
+}
+
+footer {
   clear: both;
-  margin-top: 20px;
-  margin-left: 30px;
-  border-radius: 10px;
-  width: 70px;
-  height: 40px;
-  background: #000066;
-  color: #FFFFCC;
-  font-size: 20px;
-}
-
-a {
-  color: #00B7FF;
+  padding-top: 30px;
 }
 
 #left-col {
@@ -66,13 +59,26 @@ a {
   font-style: italic;
 }
 
-#link-insta {
+button {
+  display: block;
+  clear: both;
+  margin-top: 20px;
+  margin-left: 30px;
+  border-radius: 10px;
+  width: 70px;
+  height: 40px;
+  background: #000066;
+  color: #FFFFCC;
+  font-size: 20px;
+}
+
+a {
   display: inline-block;
   padding-top: 12px;
   color: #000066;
   font-weight: bold;
 }
 
-#link-insta:hover {
+a:hover {
   text-decoration: none;
 }
