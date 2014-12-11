@@ -1,24 +1,30 @@
 extends layout
 
 block content
-  h1= title
-  p Welcome to #{title}
-  table(id="picture-table")
-    tr
-      td: img(class="picture" src="" alt="Picture 1")
-      td: img(class="picture" src="" alt="Picture 2")
-      td: img(class="picture" src="" alt="Picture 3")
-    tr
-      td: img(class="picture" src="" alt="Picture 4")
-      td: img(class="picture" src="" alt="Picture 5")
-      td: img(class="picture" src="" alt="Picture 6")
-    tr
-      td: img(class="picture" src="" alt="Picture 7")
-      td: img(class="picture" src="" alt="Picture 8")
-      td: img(class="picture" src="" alt="Picture 9")
-  figure(id="picture-panel")
-    img(id="picture-large" alt="Picture (Large)")
-    figcaption Photo Caption
-    a(id="link-insta") Open in Instagram
-    button(id="hide-panel") Hide
-  button(id="btn-stop") Stop
+  header
+    h1= title
+    p Pick up to nine places. Each place gets ten pictures from Instagram.
+  div(id="left-col")
+    table(id="picture-table")
+      tr
+        td: img(class="picture" src="" alt="Picture 1")
+        td: img(class="picture" src="" alt="Picture 2")
+        td: img(class="picture" src="" alt="Picture 3")
+      tr
+        td: img(class="picture" src="" alt="Picture 4")
+        td: img(class="picture" src="" alt="Picture 5")
+        td: img(class="picture" src="" alt="Picture 6")
+      tr
+        td: img(class="picture" src="" alt="Picture 7")
+        td: img(class="picture" src="" alt="Picture 8")
+        td: img(class="picture" src="" alt="Picture 9")
+    button(id="btn-stop") Stop
+  div(id="right-col")
+    figure(id="picture-panel")
+      img(id="picture-large" alt="Picture (Large)")
+      figcaption Photo Caption
+      a(id="link-insta") Open in Instagram
+      button(id="hide-panel") Hide
+  footer
+    p Email me at &nbsp;
+      a(href="mailto:tingfchang@hotmail.com") tingfchang@hotmail.com 
