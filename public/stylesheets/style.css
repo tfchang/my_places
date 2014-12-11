@@ -33,8 +33,9 @@ body {
   height: 480px;
 }
 
-#picture-large figcaption {
-  margin-top: 20px;
+#picture-panel figcaption {
+  padding-top: 20px;
+  width: 480px;
 }
 
 button {

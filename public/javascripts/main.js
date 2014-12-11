@@ -6,7 +6,6 @@ const maxPlace = 9;
 const maxPic = 10;
  
 var pictures = [];
-var picLarge = [];
 
 var gotPlaces = [];  // getJSON returned objects
 var stopPictures = false;
@@ -15,7 +14,6 @@ var setRandDefer = $.Deferred();
 
 function getPlacePics(getStr, placeIndex) {
   pictures[placeIndex] = [];
-  picLarge[placeIndex] = [];
 
   gotPlaces[placeIndex] = $.getJSON(getStr + '&callback=?', function(pics) {
     var numPics = Math.min(maxPic, pics.data.length);
@@ -24,6 +22,7 @@ function getPlacePics(getStr, placeIndex) {
       pictures[placeIndex][i] = {};    
       pictures[placeIndex][i].smallURL = pics.data[i].images.thumbnail.url;
       pictures[placeIndex][i].largeURL = pics.data[i].images.standard_resolution.url;
+      pictures[placeIndex][i].instaURL = pics.data[i].link;
 
       if (pics.data[i].caption) {
         pictures[placeIndex][i].caption = pics.data[i].caption.text;
@@ -106,6 +105,18 @@ function setRandomPics() {
   };
 };
 
+function openPicInPanel() {
+  var placeIndex = $(this).data('place-index');
+  var picIndex = $(this).data('pic-index');
+  var picObj = pictures[placeIndex][picIndex];
+  var picLarge = $('#picture-large');
+
+  picLarge.attr('src', picObj.largeURL);
+  $('#picture-panel').find('figcaption').text(picObj.caption);
+  $('#link-insta').attr('href', picObj.instaURL);
+};
+
+
 $(function() {
   setPlaces();
   getPictures();
@@ -116,14 +127,7 @@ $(function() {
     clearAllTimeouts();
   });
 
-  $('.picture').on('click', function() {
-    var placeIndex = $(this).data('place-index');
-    var picIndex = $(this).data('pic-index');
-    var picObj = pictures[placeIndex][picIndex];
-
-    $('#picture-large').attr('src', picObj.largeURL);
-    $('#picture-panel').find('figcaption').text(picObj.caption);
-  });
+  $('.picture').on('click', openPicInPanel);
 
   setRandDefer.done(setRandomPics);
 });
