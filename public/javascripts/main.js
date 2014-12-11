@@ -114,10 +114,13 @@ function openPicInPanel() {
   picLarge.attr('src', picObj.largeURL);
   $('#picture-panel').find('figcaption').text(picObj.caption);
   $('#link-insta').attr('href', picObj.instaURL);
+  $('#picture-panel').show();
 };
 
 
 $(function() {
+  $('#picture-panel').hide();
+
   setPlaces();
   getPictures();
   showPictures();
@@ -128,6 +131,8 @@ $(function() {
   });
 
   $('.picture').on('click', openPicInPanel);
+
+  $('#hide-panel').on('click', function() { $('#picture-panel').hide(); });
 
   setRandDefer.done(setRandomPics);
 });
