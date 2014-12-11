@@ -4,8 +4,19 @@ body {
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
 }
 
-#picture-table {
+#left-col {
   float: left;
+  width: 50%;
+  min-width: 540px;
+}
+
+#right-col {
+  float: right;
+  width: 50%;
+  min-width: 500px;
+}
+
+#picture-table {
   margin-top: 30px;
 }
 
@@ -22,7 +33,6 @@ body {
 }
 
 #picture-panel {
-  float: left;
   margin-top: 30px;
   margin-left: 50px;
   padding: 10px;
