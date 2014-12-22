@@ -37,16 +37,15 @@ function setPlaces() {
 };
 
 function setMap() {
-  var curMarker;
-  var locStr;
-
   function addPlace() {
     $('#place-list').hide();
     $('#form-place').show();
+    $('#btn-submit-place').show();
 
     $('#place-number').text(places.length);
-    $('#input-place-name').attr('placeholder', curMarker.title);
-    $('#input-place-location').val(locStr);
+    $('#input-place-name').val(curMarker.title);
+    $('#input-place-location').val(locStr(curMarker.position));
+    $('#input-place-desc').val('');
 
     $('#btn-submit-place').on('click', submitPlace);
   };
@@ -66,7 +65,7 @@ function setMap() {
     var tr = $('<tr>').appendTo('#place-list tbody');
     $('<td>').text(places.length - 1).appendTo(tr);
     $('<td>').text(curMarker.title).appendTo(tr);
-    $('<td>').text(locStr).appendTo(tr);
+    $('<td>').text(locStr(curMarker.position)).appendTo(tr);
 
     $('#form-place').hide();
     $('#btn-submit-place').hide();
@@ -94,8 +93,7 @@ function setMap() {
     bounds = new google.maps.LatLngBounds();
     bounds.extend(myLatLng);
 
-    locStr = '(' + round4(myLat) + ', ' + round4(myLng) + ')';
-    $('#map-prompt').text('Current location: ' + locStr + '.');
+    $('#map-prompt').text('Current location: ' + locStr(myLatLng) + '.');
     $('#btn-add-place').on('click', addPlace);
 
     addSearchBox();
@@ -121,6 +119,12 @@ function getCurrentLoc(callback) {
   navigator.geolocation.getCurrentPosition(success, error, options);
 };
 
+function locStr(latLng) {
+  var lat = latLng.lat();
+  var lng = latLng.lng();
+  return '(' + round4(lat) + ', ' + round4(lng) + ')';
+};
+
 function round4(x) {
   return Math.round(x * 10000) / 10000;
 };
@@ -139,13 +143,13 @@ function addSearchBox() {
       return;
   
     var thePlace = searchPlaces[0];
-    var searchMarker = new google.maps.Marker({
+    curMarker = new google.maps.Marker({
       map: map,
       title: thePlace.name,
       position: thePlace.geometry.location
     });
 
-    bounds.extend(searchMarker.position);
+    bounds.extend(curMarker.position);
     map.fitBounds(bounds);
   };
 };
