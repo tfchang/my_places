@@ -2,8 +2,18 @@ var places = [];
 var map, curMarker, bounds;
 
 function setPlaces() {
+  $('#left-pictures').hide();
+  $('#right-pictures').hide();
   $('#form-place').hide();
+  $('#table-places').hide();
+
   setMap();
+
+  $('#btn-start-pictures').on('click', function() {
+    $('#left-places').hide();
+    $('#right-places').hide();
+    $('#left-pictures').show();
+  });
 
   // places[0] = {name: "Metrotown"};
   // places[1] = {name: "Chapters (Robson & Howe)"};
@@ -38,11 +48,8 @@ function setPlaces() {
 
 function setMap() {
   function addPlace() {
-    console.log('addPlace');
-
-    $('#place-list').hide();
+    $('#table-places').hide();
     $('#form-place').show();
-    $('#btn-submit-place').show();
 
     $('#place-number').text(places.length);
     $('#input-place-name').val(curMarker.title);
@@ -51,7 +58,6 @@ function setMap() {
   };
 
   function submitPlace() {
-    console.log('submitPlace');
     curMarker.title = $('#input-place-name').val();
     places.push(curMarker);
 
@@ -63,14 +69,13 @@ function setMap() {
       infoWindow.open(map, this);
     });
 
-    var tr = $('<tr>').appendTo('#place-list tbody');
+    var tr = $('<tr>').appendTo('#table-places tbody');
     $('<td>').text(places.length - 1).appendTo(tr);
     $('<td>').text(curMarker.title).appendTo(tr);
     $('<td>').text(locStr(curMarker.position)).appendTo(tr);
 
     $('#form-place').hide();
-    $('#btn-submit-place').hide();
-    $('#place-list').show();
+    $('#table-places').show();
   };
 
   // var myLatLng = new google.maps.LatLng(49.2503, -122.9241);
@@ -94,7 +99,6 @@ function setMap() {
     bounds = new google.maps.LatLngBounds();
     bounds.extend(myLatLng);
 
-    $('#map-prompt').text('Current location: ' + locStr(myLatLng) + '.');
     $('#btn-add-place').on('click', addPlace);
     $('#btn-submit-place').on('click', submitPlace);
 
@@ -132,8 +136,6 @@ function round4(x) {
 };
 
 function addSearchBox() {
-  console.log('addSearchBox');
-  // var input = $('<input id="map-searchbox" type="text" placeholder="Search Box">');
   var input = $('#map-searchbox');
   var searchBox = new google.maps.places.SearchBox(input[0]);
   map.controls[google.maps.ControlPosition.TOP_LEFT].push(input[0]);
