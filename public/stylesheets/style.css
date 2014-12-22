@@ -83,6 +83,13 @@ button {
   font-size: 20px;
 }
 
+button#btn-add-place, button#btn-search-bar {
+  display: inline-block;
+  clear: none;
+  width: 120px;
+  height: 40px;
+}
+
 a {
   display: inline-block;
   padding-top: 12px;
