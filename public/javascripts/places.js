@@ -36,11 +36,39 @@ function setPlaces() {
 };
 
 function setMap() {
-  var myLatLng = new google.maps.LatLng(49.2503, -122.9241);
-  var mapOptions = {
-    center: myLatLng,
-    zoom: 12
+  // var myLatLng = new google.maps.LatLng(49.2503, -122.9241);
+  getCurrentLoc( function(myLat, myLng) {
+    var myLatLng = new google.maps.LatLng(myLat, myLng);
+    var mapOptions = {
+      center: myLatLng,
+      zoom: 12
+    };
+
+     map = new google.maps.Map(document.getElementById('map-canvas'), 
+       mapOptions);
+  });
+};
+
+function getCurrentLoc(callback) {
+  var options = {
+    enableHighAccuracy: false,
+    timeout: 5000,
+    maximumAge: 0
   };
 
-  map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+  function success(pos) {
+    var crd = pos.coords;
+
+    console.log('Your current position is:');
+    console.log('Latitude : ' + crd.latitude);
+    console.log('Longitude: ' + crd.longitude);
+
+    callback(crd.latitude, crd.longitude);
+  };
+
+  function error(err) {
+    console.warn('ERROR(' + err.code + '): ' + err.message);
+  };
+
+  navigator.geolocation.getCurrentPosition(success, error, options);
 };
