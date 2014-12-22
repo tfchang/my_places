@@ -41,15 +41,37 @@ function setMap() {
   var locStr;
 
   function addPlace() {
-    // move to submitPlace
-    places.push(curMarker);
-
+    $('#place-list').hide();
     $('#form-place').show();
     $('#place-number').text(places.length);
     $('#input-place-name').attr('placeholder', curMarker.title);
-    console.log(locStr);
     $('#input-place-location').val(locStr);
+
+    $('#btn-submit-place').on('click', submitPlace);
   };
+
+  function submitPlace() {
+    curMarker.title = $('#input-place-name').val();
+    places.push(curMarker);
+
+    var infoStr = '<div id="infoContent"> <h3>' + curMarker.title + '</h3>' +
+                  '<p>' + $('#input-place-desc').val() + '</p> </div>';
+    var infoWindow = new google.maps.InfoWindow({ content: infoStr });
+
+    google.maps.event.addListener(curMarker, 'click', function() {
+      infoWindow.open(map, curMarker);
+    });
+
+    $('#form-place').hide();
+    $('#btn-submit-place').hide();
+
+    var tr = $('<tr>').appendTo('#place-list tbody');
+    $('<td>').text(places.length - 1).appendTo(tr);
+    $('<td>').text(curMarker.title).appendTo(tr);
+    $('<td>').text(locStr).appendTo(tr);
+    $('#place-list').show();
+  };
+
   // var myLatLng = new google.maps.LatLng(49.2503, -122.9241);
   getCurrentLoc( function(myLat, myLng) {
     var myLatLng = new google.maps.LatLng(myLat, myLng);
@@ -70,7 +92,6 @@ function setMap() {
 
     locStr = '(' + round4(myLat) + ', ' + round4(myLng) + ')';
     $('#map-prompt').text('Current location: ' + locStr + '.');
-
 
     $('#btn-add-place').on('click', addPlace);
   });
