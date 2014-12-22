@@ -107,9 +107,8 @@ function openPicInPanel() {
 
 
 $(function() {
-  $('#picture-table').hide();
-  $('#btn-stop').hide();
-  $('#picture-panel').hide();
+  $('#left-pictures').hide();
+  $('#right-pictures').hide();
 
   setPlaces();
   // getPictures();

@@ -5,32 +5,37 @@ block content
     h1= title
     p Pick up to nine places. Each place gets ten pictures from Instagram.
   div(id="left-col")
-    div(id="map-canvas")
-    div(id="map-prompt")
-    button(id="btn-add-place") Add Place
-    button(id="btn-search-bar") Search Bar
-    table(id="picture-table")
-      tr
-        td: img(class="picture" alt="Picture 1")
-        td: img(class="picture" alt="Picture 2")
-        td: img(class="picture" alt="Picture 3")
-      tr
-        td: img(class="picture" alt="Picture 4")
-        td: img(class="picture" alt="Picture 5")
-        td: img(class="picture" alt="Picture 6")
-      tr
-        td: img(class="picture" alt="Picture 7")
-        td: img(class="picture" alt="Picture 8")
-        td: img(class="picture" alt="Picture 9")
-    button(id="btn-stop") Stop
+    div(id="left-places")
+      div(id="map-canvas")
+      input(id="map-searchbox" type="text")
+      div(id="map-prompt")
+      button(id="btn-add-place") Add Place
+      button(id="btn-search-bar") Search Bar
+    div(id="left-pictures")
+      table(id="picture-table")
+        tr
+          td: img(class="picture" alt="Picture 1")
+          td: img(class="picture" alt="Picture 2")
+          td: img(class="picture" alt="Picture 3")
+        tr
+          td: img(class="picture" alt="Picture 4")
+          td: img(class="picture" alt="Picture 5")
+          td: img(class="picture" alt="Picture 6")
+        tr
+          td: img(class="picture" alt="Picture 7")
+          td: img(class="picture" alt="Picture 8")
+          td: img(class="picture" alt="Picture 9")
+      button(id="btn-stop") Stop
   div(id="right-col")
-    include ./place_form.jade
-    include ./place_list.jade
-    figure(id="picture-panel")
-      img(id="picture-large" alt="Picture (Large)")
-      figcaption Photo Caption
-      a(id="link-insta") Open in Instagram
-      button(id="hide-panel") Hide
+    div(id="right-places")
+      include ./place_form.jade
+      include ./place_list.jade
+    div(id="right-pictures")
+      figure(id="picture-panel")
+        img(id="picture-large" alt="Picture (Large)")
+        figcaption Photo Caption
+        a(id="link-insta") Open in Instagram
+        button(id="hide-panel") Hide
   footer
     p Email me at &nbsp;
       a(href="mailto:tingfchang@hotmail.com") tingfchang@hotmail.com 

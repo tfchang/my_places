@@ -43,6 +43,7 @@ function setMap() {
   function addPlace() {
     $('#place-list').hide();
     $('#form-place').show();
+
     $('#place-number').text(places.length);
     $('#input-place-name').attr('placeholder', curMarker.title);
     $('#input-place-location').val(locStr);
@@ -62,13 +63,13 @@ function setMap() {
       infoWindow.open(map, curMarker);
     });
 
-    $('#form-place').hide();
-    $('#btn-submit-place').hide();
-
     var tr = $('<tr>').appendTo('#place-list tbody');
     $('<td>').text(places.length - 1).appendTo(tr);
     $('<td>').text(curMarker.title).appendTo(tr);
     $('<td>').text(locStr).appendTo(tr);
+
+    $('#form-place').hide();
+    $('#btn-submit-place').hide();
     $('#place-list').show();
   };
 
@@ -95,6 +96,8 @@ function setMap() {
 
     $('#btn-add-place').on('click', addPlace);
   });
+
+  addSearchBox();
 };
 
 function getCurrentLoc(callback) {
@@ -123,4 +126,8 @@ function getCurrentLoc(callback) {
 
 function round4(x) {
   return Math.round(x * 10000) / 10000;
+};
+
+function addSearchBox() {
+  
 };
