@@ -107,11 +107,13 @@ function openPicInPanel() {
 
 
 $(function() {
+  $('#picture-table').hide();
+  $('#btn-stop').hide();
   $('#picture-panel').hide();
 
   setPlaces();
-  getPictures();
-  showPictures();
+  // getPictures();
+  // showPictures();
 
   // Clicking on a picture opens it in the picture panel
   $('.picture').on('click', openPicInPanel);

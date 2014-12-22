@@ -26,6 +26,13 @@ footer {
   min-width: 500px;
 }
 
+#map-canvas {
+  margin: 30px;
+  width: 480px;
+  height: 320px;
+  border: 1px solid black;
+}
+
 #picture-table {
   margin-top: 30px;
 }
