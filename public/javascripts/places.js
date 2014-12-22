@@ -1,5 +1,5 @@
 var places = [];
-var map, curMarker;
+var map, curMarker, bounds;
 
 function setPlaces() {
   $('#form-place').hide();
@@ -91,9 +91,11 @@ function setMap() {
       animation: google.maps.Animation.DROP  
     });
 
+    bounds = new google.maps.LatLngBounds();
+    bounds.extend(myLatLng);
+
     locStr = '(' + round4(myLat) + ', ' + round4(myLng) + ')';
     $('#map-prompt').text('Current location: ' + locStr + '.');
-
     $('#btn-add-place').on('click', addPlace);
 
     addSearchBox();
@@ -109,11 +111,6 @@ function getCurrentLoc(callback) {
 
   function success(pos) {
     var crd = pos.coords;
-
-    console.log('Your current position is:');
-    console.log('Latitude : ' + crd.latitude);
-    console.log('Longitude: ' + crd.longitude);
-
     callback(crd.latitude, crd.longitude);
   };
 
@@ -133,4 +130,22 @@ function addSearchBox() {
   var input = $('#map-searchbox');
   var searchBox = new google.maps.places.SearchBox(input[0]);
   map.controls[google.maps.ControlPosition.TOP_LEFT].push(input[0]);
+
+  google.maps.event.addListener(searchBox, 'places_changed', setSearchPlace);
+
+  function setSearchPlace() {
+    var searchPlaces = searchBox.getPlaces();
+    if (searchPlaces.length == 0)
+      return;
+  
+    var thePlace = searchPlaces[0];
+    var searchMarker = new google.maps.Marker({
+      map: map,
+      title: thePlace.name,
+      position: thePlace.geometry.location
+    });
+
+    bounds.extend(searchMarker.position);
+    map.fitBounds(bounds);
+  };
 };
