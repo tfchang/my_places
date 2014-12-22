@@ -95,10 +95,10 @@ function setMap() {
     $('#map-prompt').text('Current location: ' + locStr + '.');
 
     $('#btn-add-place').on('click', addPlace);
-  });
 
-  addSearchBox();
-};
+    addSearchBox();
+  });
+}; // setMap()
 
 function getCurrentLoc(callback) {
   var options = {
@@ -129,5 +129,8 @@ function round4(x) {
 };
 
 function addSearchBox() {
-  
+  // var input = $('<input id="map-searchbox" type="text" placeholder="Search Box">');
+  var input = $('#map-searchbox');
+  var searchBox = new google.maps.places.SearchBox(input[0]);
+  map.controls[google.maps.ControlPosition.TOP_LEFT].push(input[0]);
 };

@@ -26,6 +26,25 @@ footer {
   min-width: 500px;
 }
 
+#map-searchbox {
+  box-sizing: border-box;
+  margin: 15px;
+  padding: 0 10px 0 12px;
+  width: 300px;
+  height: 32px;
+
+  border: 1px solid transparent;
+  border-radius: 2px 0 0 2px; 
+  outline: none;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+
+  background-color: #fff;  
+  font-family: Roboto;
+  font-size: 15px;
+  font-weight: 300;
+  text-overflow: ellipsis;
+}
+
 #map-canvas {
   margin: 30px;
   width: 480px;
