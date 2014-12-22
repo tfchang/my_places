@@ -38,6 +38,8 @@ function setPlaces() {
 
 function setMap() {
   function addPlace() {
+    console.log('addPlace');
+
     $('#place-list').hide();
     $('#form-place').show();
     $('#btn-submit-place').show();
@@ -46,11 +48,10 @@ function setMap() {
     $('#input-place-name').val(curMarker.title);
     $('#input-place-location').val(locStr(curMarker.position));
     $('#input-place-desc').val('');
-
-    $('#btn-submit-place').on('click', submitPlace);
   };
 
   function submitPlace() {
+    console.log('submitPlace');
     curMarker.title = $('#input-place-name').val();
     places.push(curMarker);
 
@@ -95,6 +96,7 @@ function setMap() {
 
     $('#map-prompt').text('Current location: ' + locStr(myLatLng) + '.');
     $('#btn-add-place').on('click', addPlace);
+    $('#btn-submit-place').on('click', submitPlace);
 
     addSearchBox();
   });
@@ -130,6 +132,7 @@ function round4(x) {
 };
 
 function addSearchBox() {
+  console.log('addSearchBox');
   // var input = $('<input id="map-searchbox" type="text" placeholder="Search Box">');
   var input = $('#map-searchbox');
   var searchBox = new google.maps.places.SearchBox(input[0]);
