@@ -44,8 +44,20 @@ function setMap() {
       zoom: 12
     };
 
-     map = new google.maps.Map(document.getElementById('map-canvas'), 
-       mapOptions);
+    map = new google.maps.Map(document.getElementById('map-canvas'), 
+      mapOptions);
+
+    curMarker = new google.maps.Marker({
+      title: 'Current Location',
+      map: map,
+      position: myLatLng,
+      draggable: true,
+      animation: google.maps.Animation.DROP  
+    });
+
+    var prompt = 'Current location: (' + round4(myLat) + ', ' + round4(myLng) 
+      + '). ';
+    $('#map-prompt').text(prompt);
   });
 };
 
@@ -71,4 +83,9 @@ function getCurrentLoc(callback) {
   };
 
   navigator.geolocation.getCurrentPosition(success, error, options);
+};
+
+
+function round4(x) {
+  return Math.round(x * 10000) / 10000;
 };
