@@ -59,7 +59,7 @@ function setMap() {
     var infoWindow = new google.maps.InfoWindow({ content: infoStr });
 
     google.maps.event.addListener(curMarker, 'click', function() {
-      infoWindow.open(map, curMarker);
+      infoWindow.open(map, this);
     });
 
     var tr = $('<tr>').appendTo('#place-list tbody');
