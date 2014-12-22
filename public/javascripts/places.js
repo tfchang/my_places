@@ -1,7 +1,8 @@
 var places = [];
-var map;
+var map, curMarker;
 
 function setPlaces() {
+  $('#form-place').hide();
   setMap();
 
   // places[0] = {name: "Metrotown"};
@@ -36,6 +37,19 @@ function setPlaces() {
 };
 
 function setMap() {
+  var curMarker;
+  var locStr;
+
+  function addPlace() {
+    // move to submitPlace
+    places.push(curMarker);
+
+    $('#form-place').show();
+    $('#place-number').text(places.length);
+    $('#input-place-name').attr('placeholder', curMarker.title);
+    console.log(locStr);
+    $('#input-place-location').val(locStr);
+  };
   // var myLatLng = new google.maps.LatLng(49.2503, -122.9241);
   getCurrentLoc( function(myLat, myLng) {
     var myLatLng = new google.maps.LatLng(myLat, myLng);
@@ -51,13 +65,14 @@ function setMap() {
       title: 'Current Location',
       map: map,
       position: myLatLng,
-      draggable: true,
       animation: google.maps.Animation.DROP  
     });
 
-    var prompt = 'Current location: (' + round4(myLat) + ', ' + round4(myLng) 
-      + '). ';
-    $('#map-prompt').text(prompt);
+    locStr = '(' + round4(myLat) + ', ' + round4(myLng) + ')';
+    $('#map-prompt').text('Current location: ' + locStr + '.');
+
+
+    $('#btn-add-place').on('click', addPlace);
   });
 };
 
@@ -84,7 +99,6 @@ function getCurrentLoc(callback) {
 
   navigator.geolocation.getCurrentPosition(success, error, options);
 };
-
 
 function round4(x) {
   return Math.round(x * 10000) / 10000;

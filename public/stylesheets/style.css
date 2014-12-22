@@ -36,6 +36,13 @@ footer {
   margin-left: 30px;
 }
 
+#form-place {
+  margin: 30px;
+}
+
+.div-input {
+  margin-bottom: 15px;
+}
 
 #picture-table {
   margin-top: 30px;
@@ -87,7 +94,11 @@ button#btn-add-place, button#btn-search-bar {
   display: inline-block;
   clear: none;
   width: 120px;
-  height: 40px;
+}
+
+button#btn-submit-place {
+  width: 90px;
+  margin-left: 5px;
 }
 
 a {
