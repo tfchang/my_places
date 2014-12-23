@@ -1,7 +1,8 @@
 var places = [];
+var markers = [];
 var map, curMarker, bounds;
 
-function setPlaces() {
+function setPlaces(callback) {
   $('#left-pictures').hide();
   $('#right-pictures').hide();
   $('#form-place').hide();
@@ -13,6 +14,7 @@ function setPlaces() {
     $('#left-places').hide();
     $('#right-places').hide();
     $('#left-pictures').show();
+    callback();
   });
 
   // places[0] = {name: "Metrotown"};
@@ -59,7 +61,13 @@ function setMap() {
 
   function submitPlace() {
     curMarker.title = $('#input-place-name').val();
-    places.push(curMarker);
+    markers.push(curMarker);
+    var curPlace = { 
+      name: curMarker.title,
+      lat: curMarker.position.lat(),
+      lng: curMarker.position.lng()
+    };
+    places.push(curPlace);
 
     var infoStr = '<div id="infoContent"> <h3>' + curMarker.title + '</h3>' +
                   '<p>' + $('#input-place-desc').val() + '</p> </div>';

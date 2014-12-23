@@ -16,6 +16,7 @@ function getPlacePics(getStr, placeIndex) {
   pictures[placeIndex] = [];
 
   gotPlaces[placeIndex] = $.getJSON(getStr + '&callback=?', function(pics) {
+    console.log(pics);
     var numPics = Math.min(maxPic, pics.data.length);
 
     for (var i = 0; i < numPics; i++) {
@@ -35,7 +36,7 @@ function getPictures() {
   var instaURL = 'https://api.instagram.com/v1/media/search?';
   var clientStr = 'client_id=' + clientID;
 
-  for (var placeIndex = 0; placeIndex < maxPlace; placeIndex++) {
+  for (var placeIndex = 0; placeIndex < places.length; placeIndex++) {
     var place = places[placeIndex];
     var latlngStr = 'lat=' + String(place.lat) + '&lng=' + String(place.lng) + '&';
     getPlacePics(instaURL + latlngStr + clientStr, placeIndex);
@@ -88,7 +89,7 @@ function showPlacePics(placeIndex, slideShows) {
 function showPictures() {
   var slideShows = [];
 
-  for (var placeIndex = 0; placeIndex < maxPlace; placeIndex++) {
+  for (var placeIndex = 0; placeIndex < places.length; placeIndex++) {
     showPlacePics(placeIndex, slideShows);
   };
 };
@@ -107,9 +108,13 @@ function openPicInPanel() {
 
 
 $(function() {
-  setPlaces();
-  // getPictures();
-  // showPictures();
+  // To-Do: Aysnc Control Flow
+  // start slideshows after setPlaces finish running
+  
+  setPlaces( function() {
+    getPictures();
+    showPictures();
+  });
 
   // Clicking on a picture opens it in the picture panel
   $('.picture').on('click', openPicInPanel);
