@@ -62,15 +62,12 @@ SlideShow.prototype.next = function() {
   this.picIndex += 1;
   if (this.picIndex == this.pictures.length) { this.picIndex = 0; };
 
-  console.log(this.placeIndex, this.picIndex);
-  console.log(this.img.attr('src'));
-
   this.img.hide();
   this.img.attr('src', this.pictures[this.picIndex].smallURL);
   this.img.data("place-index", this.placeIndex);
   this.img.data("pic-index", this.picIndex);
-  this.img.fadeIn(500).delay(3000).fadeOut(500);
 
+  this.img.fadeIn(500).delay(3000).fadeOut(500);
   setTimeout(function() { this.next() }.bind(this), 4000);  
 };
 

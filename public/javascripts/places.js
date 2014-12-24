@@ -14,6 +14,7 @@ function setPlaces(callback) {
     $('#left-places').hide();
     $('#right-places').hide();
     $('#left-pictures').show();
+    $('#right-pictures').show();
     callback();
   });
 
