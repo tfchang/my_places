@@ -16,7 +16,6 @@ function getPlacePics(getStr, placeIndex) {
   pictures[placeIndex] = [];
 
   gotPlaces[placeIndex] = $.getJSON(getStr + '&callback=?', function(pics) {
-    console.log(pics);
     var numPics = Math.min(maxPic, pics.data.length);
 
     for (var i = 0; i < numPics; i++) {
@@ -50,7 +49,7 @@ function SlideShow(placeIndex) {
 };
 
 SlideShow.prototype.start = function() {
-  this.picIndex = 0;
+  this.picIndex = -1;
   this.next();
 };
 
@@ -63,6 +62,10 @@ SlideShow.prototype.next = function() {
   this.picIndex += 1;
   if (this.picIndex == this.pictures.length) { this.picIndex = 0; };
 
+  console.log(this.placeIndex, this.picIndex);
+  console.log(this.img.attr('src'));
+
+  this.img.hide();
   this.img.attr('src', this.pictures[this.picIndex].smallURL);
   this.img.data("place-index", this.placeIndex);
   this.img.data("pic-index", this.picIndex);
@@ -114,12 +117,12 @@ $(function() {
   setPlaces( function() {
     getPictures();
     showPictures();
+
+    // Clicking on a picture opens it in the picture panel
+    $('.picture').on('click', openPicInPanel);
+    $('#hide-panel').on('click', function() { $('#picture-panel').hide(); });
+
+    // Clicking the stop button stop the SlideShows and set random pictures
+    $('#btn-stop').on('click', function() { stopPictures = true; });
   });
-
-  // Clicking on a picture opens it in the picture panel
-  $('.picture').on('click', openPicInPanel);
-  $('#hide-panel').on('click', function() { $('#picture-panel').hide(); });
-
-  // Clicking the stop button stop the SlideShows and set random pictures
-  $('#btn-stop').on('click', function() { stopPictures = true; });
 });
