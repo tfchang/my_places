@@ -1,0 +1,15 @@
+div(id="form-place")
+  p Place Number: <span id="place-number"></span>
+  div(class="div-input")
+    label(for="input-place-location") Location: 
+    br
+    input(id="input-place-location" type="text" readonly)
+  div(class="div-input")
+    label(for="input-place-name") Place Name:
+    br
+    input(id="input-place-name" type="text")
+  div(class="div-input")
+    label(for="input-place-desc") Description:
+    br
+    textarea(id="input-place-desc" rows="5" cols="50")
+  button(id="btn-submit-place") Submit

@@ -26,6 +26,51 @@ footer {
   min-width: 500px;
 }
 
+#map-searchbox {
+  box-sizing: border-box;
+  margin: 15px;
+  padding: 0 10px 0 12px;
+  width: 300px;
+  height: 32px;
+
+  border: 1px solid transparent;
+  border-radius: 2px 0 0 2px; 
+  outline: none;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+
+  background-color: #fff;  
+  font-family: Roboto;
+  font-size: 15px;
+  font-weight: 300;
+  text-overflow: ellipsis;
+}
+
+#map-canvas {
+  margin: 30px;
+  width: 480px;
+  height: 320px;
+}
+
+#map-prompt {
+  margin-left: 30px;
+}
+
+#form-place {
+  margin: 30px;
+}
+
+#table-places {
+  margin: 30px;
+}
+
+#table-places td {
+  padding: 5px 10px;
+}
+
+.div-input {
+  margin-bottom: 15px;
+}
+
 #picture-table {
   margin-top: 30px;
 }
@@ -70,6 +115,17 @@ button {
   background: #000066;
   color: #FFFFCC;
   font-size: 20px;
+}
+
+button#btn-add-place, button#btn-start-pictures {
+  display: inline-block;
+  clear: none;
+  width: 120px;
+}
+
+button#btn-submit-place {
+  width: 90px;
+  margin-left: 5px;
 }
 
 a {
