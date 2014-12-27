@@ -13,8 +13,6 @@ function setPlaces(callback) {
   $('#btn-start-pictures').on('click', function() {
     $('#left-places').hide();
     $('#right-places').hide();
-    $('#left-pictures').show();
-    $('#right-pictures').show();
     callback();
   });
 

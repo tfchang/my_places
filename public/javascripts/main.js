@@ -112,6 +112,10 @@ $(function() {
   // start slideshows after setPlaces finish running
   
   setPlaces( function() {
+    $('#left-pictures').show();
+    $('#right-pictures').show();
+    $('#picture-panel').hide();
+    
     getPictures();
     showPictures();
 
