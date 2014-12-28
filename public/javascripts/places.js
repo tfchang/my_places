@@ -8,6 +8,7 @@ function setPlaces(callback) {
   $('#form-place').hide();
   $('#table-places').hide();
 
+  loadPlaces();
   setMap();
 
   $('#btn-save-places').on('click', savePlaces);
@@ -85,9 +86,8 @@ function setMap() {
 
     $('#form-place').hide();
     $('#table-places').show();
-  };
+  }; // submitPlace()
 
-  // var myLatLng = new google.maps.LatLng(49.2503, -122.9241);
   getCurrentLoc( function(myLat, myLng) {
     var myLatLng = new google.maps.LatLng(myLat, myLng);
     var mapOptions = {
@@ -132,7 +132,7 @@ function getCurrentLoc(callback) {
   };
 
   navigator.geolocation.getCurrentPosition(success, error, options);
-};
+}; // getCurrentLoc()
 
 function locStr(latLng) {
   var lat = latLng.lat();
@@ -168,7 +168,10 @@ function addSearchBox() {
   };
 };
 
+function loadPlaces() {
+  places = JSON.parse(localStorage.getItem('my_places.places'));
+};
+
 function savePlaces() {
-  console.log('in savePlaces');
   localStorage.setItem('my_places.places', JSON.stringify(places));
 };
