@@ -109,22 +109,19 @@ button {
   clear: both;
   margin-top: 20px;
   margin-left: 30px;
+  padding: 5px 15px;
   border-radius: 10px;
-  width: 70px;
-  height: 40px;
   background: #000066;
   color: #FFFFCC;
   font-size: 20px;
 }
 
-button#btn-add-place, button#btn-start-pictures {
+button.btn-places {
   display: inline-block;
   clear: none;
-  width: 120px;
 }
 
 button#btn-submit-place {
-  width: 90px;
   margin-left: 5px;
 }
 
