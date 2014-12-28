@@ -38,7 +38,7 @@ function setMap(callback) {
       animation: google.maps.Animation.DROP  
     });
 
-    loadPlaces();
+    loadPlaces(myLatLng);
     addSearchBox();
     callback();
   });
@@ -63,14 +63,17 @@ function getCurrentLoc(callback) {
   navigator.geolocation.getCurrentPosition(success, error, options);
 }; // getCurrentLoc()
 
-function loadPlaces() {
+function loadPlaces(myLatLng) {
   bounds = new google.maps.LatLngBounds();
   places = JSON.parse(localStorage.getItem('my_places.places')) || [];
   markers = [];
   places.forEach(setMarker);
-  
-  if (!bounds.isEmpty())
+
+  if (bounds.isEmpty()) {
+    bounds.extend(myLatLng)
+  } else {
     map.fitBounds(bounds);
+  };
 
   function setMarker(place, index) {
     var newMarker = new google.maps.Marker({
