@@ -7,73 +7,42 @@ function setPlaces(callback) {
   $('#form-place').hide();
   $('#table-places').hide();
 
-  setMap();
+  setMap( function() {
+    $('#btn-add-place').on('click', addPlace);
+    $('#btn-submit-place').on('click', submitPlace);
+    $('#btn-save-places').on('click', savePlaces);
 
-  $('#btn-save-places').on('click', savePlaces);
+    $('#btn-start-pictures').on('click', function() {
+      $('#left-places').hide();
+      $('#right-places').hide();
+      callback();
+    });
+  }); // setMap();
+}; // setPlaces();
 
-  $('#btn-start-pictures').on('click', function() {
-    $('#left-places').hide();
-    $('#right-places').hide();
-    callback();
-  });
-
-  // places[0] = {name: "Metrotown"};
-  // places[1] = {name: "Chapters (Robson & Howe)"};
-  // places[2] = {name: "Queen Elizabeth Park"};
-  // places[3] = {name: "Stanley Park"};
-  // places[4] = {name: "Granville Island"};
-  // places[5] = {name: "UBC"};
-  // places[6] = {name: "SFU"};
-  // places[7] = {name: "Westminster Pier Park"};
-  // places[8] = {name: "Aberdeen Centre"};
-
-  // places[0].lat = 49.2279;
-  // places[1].lat = 49.2822;
-  // places[2].lat = 49.2431;
-  // places[3].lat = 49.3075;
-  // places[4].lat = 49.2724;
-  // places[5].lat = 49.2608;
-  // places[6].lat = 49.2783;
-  // places[7].lat = 49.2028;
-  // places[8].lat = 49.1838;
-
-  // places[0].lng = -122.9993;
-  // places[1].lng = -123.1209;
-  // places[2].lng = -123.1110;
-  // places[3].lng = -123.1412;
-  // places[4].lng = -123.1340;
-  // places[5].lng = -123.2460;
-  // places[6].lng = -122.9199;
-  // places[7].lng = -122.9060;
-  // places[8].lng = -123.1337;
-};
-
-function setMap() {
+function setMap(callback) {
   getCurrentLoc( function(myLat, myLng) {
     var myLatLng = new google.maps.LatLng(myLat, myLng);
     var mapOptions = {
       center: myLatLng,
       zoom: 12
     };
-
     map = new google.maps.Map(document.getElementById('map-canvas'), 
       mapOptions);
-    loadPlaces();
 
+    loadPlaces();
+    
     curMarker = new google.maps.Marker({
       title: 'Current Location',
       map: map,
       position: myLatLng,
       animation: google.maps.Animation.DROP  
     });
-
     bounds = new google.maps.LatLngBounds();
     bounds.extend(myLatLng);
 
-    $('#btn-add-place').on('click', addPlace);
-    $('#btn-submit-place').on('click', submitPlace);
-
     addSearchBox();
+    callback();
   });
 }; // setMap()
 
@@ -95,6 +64,47 @@ function getCurrentLoc(callback) {
 
   navigator.geolocation.getCurrentPosition(success, error, options);
 }; // getCurrentLoc()
+
+function loadPlaces() {
+  places = JSON.parse(localStorage.getItem('my_places.places')) || [];
+  markers = [];
+  places.forEach(setMarker);
+  console.log(markers);
+
+  function setMarker(place, index) {
+    var newMarker = new google.maps.Marker({
+      map: map,
+      title: place.name,
+      position: new google.maps.LatLng(place.lat, place.lng)
+    });
+    markers[index] = newMarker;
+  };
+}; // loadPlaces()
+
+function addSearchBox() {
+  var input = $('#map-searchbox');
+  var searchBox = new google.maps.places.SearchBox(input[0]);
+  map.controls[google.maps.ControlPosition.TOP_LEFT].push(input[0]);
+
+  google.maps.event.addListener(searchBox, 'places_changed', setSearchPlace);
+
+  function setSearchPlace() {
+    var searchPlaces = searchBox.getPlaces();
+    if (searchPlaces.length == 0)
+      return;
+  
+    var thePlace = searchPlaces[0];
+    curMarker = new google.maps.Marker({
+      map: map,
+      title: thePlace.name,
+      position: thePlace.geometry.location
+    });
+
+    bounds.extend(curMarker.position);
+    map.fitBounds(bounds);
+  }; //setSearchPlace()
+}; // addSearchBox()
+
 
 function addPlace() {
   $('#table-places').hide();
@@ -153,48 +163,7 @@ function showPlacesTable() {
   markers.forEach(addRow);
   $('#form-place').hide();
   $('#table-places').show();
-};
-
-function addSearchBox() {
-  var input = $('#map-searchbox');
-  var searchBox = new google.maps.places.SearchBox(input[0]);
-  map.controls[google.maps.ControlPosition.TOP_LEFT].push(input[0]);
-
-  google.maps.event.addListener(searchBox, 'places_changed', setSearchPlace);
-
-  function setSearchPlace() {
-    var searchPlaces = searchBox.getPlaces();
-    if (searchPlaces.length == 0)
-      return;
-  
-    var thePlace = searchPlaces[0];
-    curMarker = new google.maps.Marker({
-      map: map,
-      title: thePlace.name,
-      position: thePlace.geometry.location
-    });
-
-    bounds.extend(curMarker.position);
-    map.fitBounds(bounds);
-  }; //setSearchPlace()
-}; // addSearchBox()
-
-
-function loadPlaces() {
-  places = JSON.parse(localStorage.getItem('my_places.places')) || [];
-  markers = [];
-  places.forEach(setMarker);
-  console.log(markers);
-
-  function setMarker(place, index) {
-    var newMarker = new google.maps.Marker({
-      map: map,
-      title: place.name,
-      position: new google.maps.LatLng(place.lat, place.lng)
-    });
-    markers[index] = newMarker;
-  };
-};
+}; // showPlacesTable()
 
 function savePlaces() {
   localStorage.setItem('my_places.places', JSON.stringify(places));
