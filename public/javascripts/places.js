@@ -8,6 +8,7 @@ function setPlaces(callback) {
   $('#table-places').hide();
 
   setMap( function() {
+    $('#btn-list-places').on('click', showPlacesTable);
     $('#btn-add-place').on('click', addPlace);
     $('#btn-submit-place').on('click', submitPlace);
     $('#btn-save-places').on('click', savePlaces);
