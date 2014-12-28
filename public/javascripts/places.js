@@ -124,11 +124,12 @@ function submitPlace() {
   var curPlace = { 
     name: curMarker.title,
     lat: curMarker.position.lat(),
-    lng: curMarker.position.lng()
+    lng: curMarker.position.lng(),
+    desc: $('#input-place-desc').val()
   };
   places.push(curPlace);
 
-  addInfoWindow();
+  addInfoWindow(curPlace.desc);
   showPlacesTable();
 };
 
@@ -142,9 +143,9 @@ function round4(x) {
   return Math.round(x * 10000) / 10000;
 };
 
-function addInfoWindow() {
+function addInfoWindow(desc) {
   var infoStr = '<div id="infoContent"> <h3>' + curMarker.title + '</h3>' +
-                '<p>' + $('#input-place-desc').val() + '</p> </div>';
+                '<p>' + desc + '</p> </div>';
   var infoWindow = new google.maps.InfoWindow({ content: infoStr });
 
   google.maps.event.addListener(curMarker, 'click', function() {
