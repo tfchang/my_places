@@ -1,6 +1,5 @@
-var places = [];
-var markers = [];
-var map, curMarker, bounds;
+var places, markers, curMarker;
+var map, bounds;
 
 function setPlaces(callback) {
   $('#left-pictures').hide();
@@ -8,7 +7,6 @@ function setPlaces(callback) {
   $('#form-place').hide();
   $('#table-places').hide();
 
-  loadPlaces();
   setMap();
 
   $('#btn-save-places').on('click', savePlaces);
@@ -60,6 +58,7 @@ function setMap() {
 
     map = new google.maps.Map(document.getElementById('map-canvas'), 
       mapOptions);
+    loadPlaces();
 
     curMarker = new google.maps.Marker({
       title: 'Current Location',
@@ -182,7 +181,19 @@ function addSearchBox() {
 
 
 function loadPlaces() {
-  places = JSON.parse(localStorage.getItem('my_places.places'));
+  places = JSON.parse(localStorage.getItem('my_places.places')) || [];
+  markers = [];
+  places.forEach(setMarker);
+  console.log(markers);
+
+  function setMarker(place, index) {
+    var newMarker = new google.maps.Marker({
+      map: map,
+      title: place.name,
+      position: new google.maps.LatLng(place.lat, place.lng)
+    });
+    markers[index] = newMarker;
+  };
 };
 
 function savePlaces() {
