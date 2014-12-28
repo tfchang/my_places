@@ -168,4 +168,5 @@ function showPlacesTable() {
 
 function savePlaces() {
   localStorage.setItem('my_places.places', JSON.stringify(places));
+  $('#table-places').hide();
 };
