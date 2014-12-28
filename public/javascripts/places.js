@@ -10,6 +10,8 @@ function setPlaces(callback) {
 
   setMap();
 
+  $('#btn-save-places').on('click', savePlaces);
+
   $('#btn-start-pictures').on('click', function() {
     $('#left-places').hide();
     $('#right-places').hide();
@@ -164,4 +166,9 @@ function addSearchBox() {
     bounds.extend(curMarker.position);
     map.fitBounds(bounds);
   };
+};
+
+function savePlaces() {
+  console.log('in savePlaces');
+  localStorage.setItem('my_places.places', JSON.stringify(places));
 };
