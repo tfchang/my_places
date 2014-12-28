@@ -38,11 +38,7 @@ function setMap(callback) {
       animation: google.maps.Animation.DROP  
     });
 
-    bounds = new google.maps.LatLngBounds();
-    bounds.extend(myLatLng);
     loadPlaces();
-    map.fitBounds(bounds);
-
     addSearchBox();
     callback();
   });
@@ -68,9 +64,13 @@ function getCurrentLoc(callback) {
 }; // getCurrentLoc()
 
 function loadPlaces() {
+  bounds = new google.maps.LatLngBounds();
   places = JSON.parse(localStorage.getItem('my_places.places')) || [];
   markers = [];
   places.forEach(setMarker);
+  
+  if (!bounds.isEmpty())
+    map.fitBounds(bounds);
 
   function setMarker(place, index) {
     var newMarker = new google.maps.Marker({
@@ -80,6 +80,7 @@ function loadPlaces() {
     });
     markers[index] = newMarker;
     bounds.extend(newMarker.position);
+    addInfoWindow(newMarker, place.desc);
   };
 }; // loadPlaces()
 
@@ -129,7 +130,7 @@ function submitPlace() {
   };
   places.push(curPlace);
 
-  addInfoWindow(curPlace.desc);
+  addInfoWindow(curMarker, curPlace.desc);
   showPlacesTable();
 };
 
@@ -143,12 +144,12 @@ function round4(x) {
   return Math.round(x * 10000) / 10000;
 };
 
-function addInfoWindow(desc) {
-  var infoStr = '<div id="infoContent"> <h3>' + curMarker.title + '</h3>' +
+function addInfoWindow(marker, desc) {
+  var infoStr = '<div id="infoContent"> <h3>' + marker.title + '</h3>' +
                 '<p>' + desc + '</p> </div>';
   var infoWindow = new google.maps.InfoWindow({ content: infoStr });
 
-  google.maps.event.addListener(curMarker, 'click', function() {
+  google.maps.event.addListener(marker, 'click', function() {
     infoWindow.open(map, this);
   });
 };
