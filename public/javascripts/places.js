@@ -27,19 +27,20 @@ function setMap(callback) {
       center: myLatLng,
       zoom: 12
     };
+
     map = new google.maps.Map(document.getElementById('map-canvas'), 
       mapOptions);
-
-    loadPlaces();
-    
     curMarker = new google.maps.Marker({
       title: 'Current Location',
       map: map,
       position: myLatLng,
       animation: google.maps.Animation.DROP  
     });
+
     bounds = new google.maps.LatLngBounds();
     bounds.extend(myLatLng);
+    loadPlaces();
+    map.fitBounds(bounds);
 
     addSearchBox();
     callback();
@@ -69,7 +70,6 @@ function loadPlaces() {
   places = JSON.parse(localStorage.getItem('my_places.places')) || [];
   markers = [];
   places.forEach(setMarker);
-  console.log(markers);
 
   function setMarker(place, index) {
     var newMarker = new google.maps.Marker({
@@ -78,6 +78,7 @@ function loadPlaces() {
       position: new google.maps.LatLng(place.lat, place.lng)
     });
     markers[index] = newMarker;
+    bounds.extend(newMarker.position);
   };
 }; // loadPlaces()
 
