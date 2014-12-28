@@ -51,43 +51,6 @@ function setPlaces(callback) {
 };
 
 function setMap() {
-  function addPlace() {
-    $('#table-places').hide();
-    $('#form-place').show();
-
-    $('#place-number').text(places.length);
-    $('#input-place-name').val(curMarker.title);
-    $('#input-place-location').val(locStr(curMarker.position));
-    $('#input-place-desc').val('');
-  };
-
-  function submitPlace() {
-    curMarker.title = $('#input-place-name').val();
-    markers.push(curMarker);
-    var curPlace = { 
-      name: curMarker.title,
-      lat: curMarker.position.lat(),
-      lng: curMarker.position.lng()
-    };
-    places.push(curPlace);
-
-    var infoStr = '<div id="infoContent"> <h3>' + curMarker.title + '</h3>' +
-                  '<p>' + $('#input-place-desc').val() + '</p> </div>';
-    var infoWindow = new google.maps.InfoWindow({ content: infoStr });
-
-    google.maps.event.addListener(curMarker, 'click', function() {
-      infoWindow.open(map, this);
-    });
-
-    var tr = $('<tr>').appendTo('#table-places tbody');
-    $('<td>').text(places.length - 1).appendTo(tr);
-    $('<td>').text(curMarker.title).appendTo(tr);
-    $('<td>').text(locStr(curMarker.position)).appendTo(tr);
-
-    $('#form-place').hide();
-    $('#table-places').show();
-  }; // submitPlace()
-
   getCurrentLoc( function(myLat, myLng) {
     var myLatLng = new google.maps.LatLng(myLat, myLng);
     var mapOptions = {
@@ -134,6 +97,37 @@ function getCurrentLoc(callback) {
   navigator.geolocation.getCurrentPosition(success, error, options);
 }; // getCurrentLoc()
 
+function addPlace() {
+  $('#table-places').hide();
+  $('#form-place').show();
+
+  $('#place-number').text(places.length);
+  $('#input-place-name').val(curMarker.title);
+  $('#input-place-location').val(locStr(curMarker.position));
+  $('#input-place-desc').val('');
+};
+
+function submitPlace() {
+  curMarker.title = $('#input-place-name').val();
+  markers.push(curMarker);
+  var curPlace = { 
+    name: curMarker.title,
+    lat: curMarker.position.lat(),
+    lng: curMarker.position.lng()
+  };
+  places.push(curPlace);
+
+  addInfoWindow();
+
+  var tr = $('<tr>').appendTo('#table-places tbody');
+  $('<td>').text(places.length - 1).appendTo(tr);
+  $('<td>').text(curMarker.title).appendTo(tr);
+  $('<td>').text(locStr(curMarker.position)).appendTo(tr);
+
+  $('#form-place').hide();
+  $('#table-places').show();
+}; // submitPlace()
+
 function locStr(latLng) {
   var lat = latLng.lat();
   var lng = latLng.lng();
@@ -142,6 +136,16 @@ function locStr(latLng) {
 
 function round4(x) {
   return Math.round(x * 10000) / 10000;
+};
+
+function addInfoWindow() {
+  var infoStr = '<div id="infoContent"> <h3>' + curMarker.title + '</h3>' +
+                '<p>' + $('#input-place-desc').val() + '</p> </div>';
+  var infoWindow = new google.maps.InfoWindow({ content: infoStr });
+
+  google.maps.event.addListener(curMarker, 'click', function() {
+    infoWindow.open(map, this);
+  });
 };
 
 function addSearchBox() {
