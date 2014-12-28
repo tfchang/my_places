@@ -117,7 +117,7 @@ button {
   font-size: 20px;
 }
 
-button#btn-add-place, button#btn-start-pictures {
+button#btn-add-place, button#btn-save-places, button#btn-start-pictures {
   display: inline-block;
   clear: none;
   width: 120px;
