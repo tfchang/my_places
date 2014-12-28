@@ -118,15 +118,8 @@ function submitPlace() {
   places.push(curPlace);
 
   addInfoWindow();
-
-  var tr = $('<tr>').appendTo('#table-places tbody');
-  $('<td>').text(places.length - 1).appendTo(tr);
-  $('<td>').text(curMarker.title).appendTo(tr);
-  $('<td>').text(locStr(curMarker.position)).appendTo(tr);
-
-  $('#form-place').hide();
-  $('#table-places').show();
-}; // submitPlace()
+  showPlacesTable();
+};
 
 function locStr(latLng) {
   var lat = latLng.lat();
@@ -146,6 +139,21 @@ function addInfoWindow() {
   google.maps.event.addListener(curMarker, 'click', function() {
     infoWindow.open(map, this);
   });
+};
+
+function showPlacesTable() {
+  var tbody = $('#table-places tbody').empty();
+  
+  function addRow(marker, index) {
+    var tr = $('<tr>').appendTo(tbody);
+    $('<td>').text(index).appendTo(tr);
+    $('<td>').text(marker.title).appendTo(tr);
+    $('<td>').text(locStr(marker.position)).appendTo(tr);
+  };
+  
+  markers.forEach(addRow);
+  $('#form-place').hide();
+  $('#table-places').show();
 };
 
 function addSearchBox() {
@@ -169,8 +177,9 @@ function addSearchBox() {
 
     bounds.extend(curMarker.position);
     map.fitBounds(bounds);
-  };
-};
+  }; //setSearchPlace()
+}; // addSearchBox()
+
 
 function loadPlaces() {
   places = JSON.parse(localStorage.getItem('my_places.places'));
