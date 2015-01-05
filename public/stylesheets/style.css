@@ -102,8 +102,7 @@ footer {
 
 button {
   cursor: pointer;
-  display: block;
-  clear: both;
+  display: inline-block;
   margin-top: 20px;
   margin-left: 30px;
   padding: 5px 15px;
@@ -113,13 +112,11 @@ button {
   font-size: 20px;
 }
 
-button.btn-places {
-  display: inline-block;
-  clear: none;
+.btn-places {
   margin-left: 23px;
 }
 
-button#btn-submit-place {
+#btn-submit-place, #btn-submit-delete {
   margin-left: 5px;
 }
 
