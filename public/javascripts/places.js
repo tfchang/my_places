@@ -9,7 +9,6 @@ function setPlaces(callback) {
   setMap( function() {
     $('#btn-list-places').on('click', showPlacesTable);
     $('#btn-add-place').on('click', addPlace);
-    $('#btn-submit-place').on('click', submitPlace);
     $('#btn-save-places').on('click', savePlaces);
     $('#btn-delete-place').on('click', deletePlace);
 
@@ -134,6 +133,9 @@ function addPlace() {
   $('#input-place-name').val(curMarker.title);
   $('#input-place-location').val(locStr(curMarker.position));
   $('#input-place-desc').val('');
+
+  $('#btn-submit-place').on('click', submitPlace);
+  $('#btn-cancel-submit').on('click', function() { $('#form-place').hide(); });
 };
 
 function submitPlace() {
@@ -179,4 +181,6 @@ function savePlaces() {
 function deletePlace() {
   $('#delete-place').siblings().hide();
   $('#delete-place').show();
+
+  $('#btn-cancel-delete').on('click', function() { $('#delete-place').hide(); });
 };
