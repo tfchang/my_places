@@ -105,6 +105,7 @@ footer {
 }
 
 button {
+  cursor: pointer;
   display: block;
   clear: both;
   margin-top: 20px;
@@ -119,6 +120,7 @@ button {
 button.btn-places {
   display: inline-block;
   clear: none;
+  margin-left: 23px;
 }
 
 button#btn-submit-place {
