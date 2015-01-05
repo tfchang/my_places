@@ -111,6 +111,20 @@ function addSearchBox() {
   }; //setSearchPlace()
 }; // addSearchBox()
 
+function showPlacesTable() {
+  var tbody = $('#table-places tbody').empty();
+  
+  function addRow(marker, index) {
+    var tr = $('<tr>').appendTo(tbody);
+    $('<td>').text(index).appendTo(tr);
+    $('<td>').text(marker.title).appendTo(tr);
+    $('<td>').text(locStr(marker.position)).appendTo(tr);
+  };
+  
+  markers.forEach(addRow);
+  $('#table-places').siblings().hide();
+  $('#table-places').show();
+}; // showPlacesTable()
 
 function addPlace() {
   $('#form-place').siblings().hide();
@@ -156,21 +170,6 @@ function addInfoWindow(marker, desc) {
     infoWindow.open(map, this);
   });
 };
-
-function showPlacesTable() {
-  var tbody = $('#table-places tbody').empty();
-  
-  function addRow(marker, index) {
-    var tr = $('<tr>').appendTo(tbody);
-    $('<td>').text(index).appendTo(tr);
-    $('<td>').text(marker.title).appendTo(tr);
-    $('<td>').text(locStr(marker.position)).appendTo(tr);
-  };
-  
-  markers.forEach(addRow);
-  $('#table-places').siblings().hide();
-  $('#table-places').show();
-}; // showPlacesTable()
 
 function savePlaces() {
   localStorage.setItem('my_places.places', JSON.stringify(places));

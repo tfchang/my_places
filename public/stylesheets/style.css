@@ -55,11 +55,7 @@ footer {
   margin-left: 30px;
 }
 
-#form-place {
-  margin: 30px;
-}
-
-#table-places {
+#table-places, #form-place, #delete-place {
   margin: 30px;
 }
 
