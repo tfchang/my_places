@@ -193,6 +193,7 @@ function deleteResult() {
   if (places[index]) {
     result = "Place " + index + ": " + places[index].name + " deleted."
     places.splice(index, 1);
+    markers[index].setMap(null);
     markers.splice(index, 1);
   } else {
     result = "Error: Place " + index + " does not exist";
