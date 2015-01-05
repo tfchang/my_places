@@ -182,5 +182,22 @@ function deletePlace() {
   $('#delete-place').siblings().hide();
   $('#delete-place').show();
 
+  $('#btn-submit-delete').on('click', deleteResult);
   $('#btn-cancel-delete').on('click', function() { $('#delete-place').hide(); });
+};
+
+function deleteResult() {
+  var index = $('#input-place-delete').val();
+  var result;
+
+  if (places[index]) {
+    result = "Place " + index + ": " + places[index].name + "deleted."
+    places.splice(index, 1);
+  } else {
+    result = "Error: Place " + index + " does not exist";
+  };
+
+  $('#delete-place').hide();
+  $('#delete-result').text(result);
+  $('#delete-result').show();
 };
