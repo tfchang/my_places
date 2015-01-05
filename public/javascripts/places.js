@@ -191,13 +191,15 @@ function deleteResult() {
   var result;
 
   if (places[index]) {
-    result = "Place " + index + ": " + places[index].name + "deleted."
+    result = "Place " + index + ": " + places[index].name + " deleted."
     places.splice(index, 1);
+    markers.splice(index, 1);
   } else {
     result = "Error: Place " + index + " does not exist";
   };
 
   $('#delete-place').hide();
-  $('#delete-result').text(result);
+  $('#delete-result').empty();
+  $('<p>').text(result).appendTo('#delete-result');
   $('#delete-result').show();
 };
