@@ -4,14 +4,14 @@ var map, bounds;
 function setPlaces(callback) {
   $('#left-pictures').hide();
   $('#right-pictures').hide();
-  $('#form-place').hide();
-  $('#table-places').hide();
+  $('#right-places').children().hide();
 
   setMap( function() {
     $('#btn-list-places').on('click', showPlacesTable);
     $('#btn-add-place').on('click', addPlace);
     $('#btn-submit-place').on('click', submitPlace);
     $('#btn-save-places').on('click', savePlaces);
+    $('#btn-delete-place').on('click', deletePlace);
 
     $('#btn-start-pictures').on('click', function() {
       $('#left-places').hide();
@@ -113,7 +113,7 @@ function addSearchBox() {
 
 
 function addPlace() {
-  $('#table-places').hide();
+  $('#form-place').siblings().hide();
   $('#form-place').show();
 
   $('#place-number').text(places.length);
@@ -168,11 +168,16 @@ function showPlacesTable() {
   };
   
   markers.forEach(addRow);
-  $('#form-place').hide();
+  $('#table-places').siblings().hide();
   $('#table-places').show();
 }; // showPlacesTable()
 
 function savePlaces() {
   localStorage.setItem('my_places.places', JSON.stringify(places));
   $('#table-places').hide();
+};
+
+function deletePlace() {
+  $('#delete-place').siblings().hide();
+  $('#delete-place').show();
 };
